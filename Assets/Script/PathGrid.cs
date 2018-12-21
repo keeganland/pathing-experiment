@@ -63,7 +63,7 @@ public class PathGrid : MonoBehaviour {
             foreach (PathNode n in grid)
             {
                 Gizmos.color = (n.IsTraversable()) ? Color.white : Color.red;
-                Gizmos.DrawCube(n.GetWorldPosition(), Vector3.one * (nodeDiameter - .1f));
+                Gizmos.DrawWireCube(n.GetWorldPosition(), Vector3.one * (nodeDiameter * 0.9f));
             }
         }        
     }
