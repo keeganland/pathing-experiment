@@ -4,8 +4,8 @@
 /[Bb]uild/
 /[Bb]uilds/
 /[Mm]ono/
-/[Ss]prites/
-/[Tt]iles/
+**/[Ss]prites/
+**/[Tt]iles/
 
 # Visual Studio 2015 cache directory
 /.vs/
