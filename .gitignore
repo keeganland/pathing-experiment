@@ -6,6 +6,8 @@
 /[Mm]ono/
 **/[Ss]prites/
 **/[Tt]iles/
+**/[Tt]ilesheet/
+**/[Pp]alette/
 
 # Visual Studio 2015 cache directory
 /.vs/
