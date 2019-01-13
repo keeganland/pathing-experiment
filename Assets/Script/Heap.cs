@@ -15,6 +15,8 @@ public class Heap<T> where T : IHeapItem<T> {
     private T[] items; //Usually PathNodes, given what I'm coding this for
     private int currentItemCount;
 
+    /* Constructor
+     * */
     public Heap(int maxHeapSize)
     {
         items = new T[maxHeapSize];
@@ -52,15 +54,13 @@ public class Heap<T> where T : IHeapItem<T> {
         }
     }
 
-    /*
-     * Changes the priority of an item - like when we find a node in the open set that we now have a better priority for.
+    /* UpdateItem - Changes the priority of an item - like when we find a node in the open set that we now have a better priority for.
      */ 
     public void UpdateItem(T item)
     {
         SortUp(item);
         //We don't need a SortDown here too as long as we're just doing pathfinding - priorities can only get better
     }
-
     private void SortDown(T item)
     {
         while (true)
@@ -85,7 +85,7 @@ public class Heap<T> where T : IHeapItem<T> {
                 {
                     Swap(item, items[swapIndex]);
                 }
-                else //If the child nodes are both bigger than the parent, we satisfy the condition, and don't need t
+                else //If the child nodes are both bigger than the parent, we satisfy the condition, and don't need to do anything else
                 {
                     return;
                 }

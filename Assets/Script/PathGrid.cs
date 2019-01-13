@@ -16,16 +16,38 @@ public class PathGrid : MonoBehaviour {
     private PathNode[,] grid;
     private float nodeDiameter;
     private int gridSizeX, gridSizeY;
-    //private List<PathNode> path;
+    /* Properties
+     * */
+    public int MaxSize
+    {
+        get
+        {
+            return gridSizeX * gridSizeY;
+        }
+    }
 
-    // Use this for initialization
+    //Monobehaviour stuff
     private void Awake()
     {
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
         this.CreateGrid();
-    }    
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
+        if (grid != null && displayGridGizmos)
+        {
+            foreach (PathNode n in grid)
+            {
+                Gizmos.color = (n.Traversable) ? Color.white : Color.red;
+                Gizmos.DrawWireCube(n.WorldPosition, Vector3.one * (nodeDiameter * 0.9f));
+            }
+        }
+    }
+   
+    //Grid functionality methods
     private void CreateGrid()
     {
         grid = new PathNode[gridSizeX, gridSizeY];
@@ -54,28 +76,7 @@ public class PathGrid : MonoBehaviour {
             }
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
-        if (grid != null && displayGridGizmos)
-        {
-            foreach (PathNode n in grid)
-            {
-                Gizmos.color = (n.IsTraversable()) ? Color.white : Color.red;
-                Gizmos.DrawWireCube(n.GetWorldPosition(), Vector3.one * (nodeDiameter * 0.9f));
-            }
-        }        
-    }
-    public int MaxSize
-    {
-        get
-        {
-            return gridSizeX * gridSizeY;
-        }
-    }
-    /*
-     * Used to e.g. find the node that the player is currently standing on, for example
+    /*Used to e.g. find the node that the player is currently standing on, for example
      */
     public PathNode NodeFromWorldPoint (Vector2 worldPosition)
     {
@@ -89,8 +90,7 @@ public class PathGrid : MonoBehaviour {
 
         return grid[x, y];
     }
-    /*
-     * Not an array, because there's no guarantee how many neighbours that it will have. 
+    /* Does not return an array, because there's no guarantee how many neighbours that a node will have. 
      */
     public List<PathNode> FindNeighbours(PathNode pathNode)
     {
@@ -103,8 +103,8 @@ public class PathGrid : MonoBehaviour {
                 if (x == 0 && y == 0)
                     continue;
 
-                int checkX = pathNode.GetGridCoordX() + x;
-                int checkY = pathNode.GetGridCoordY() + y;
+                int checkX = pathNode.GridCoordX + x;
+                int checkY = pathNode.GridCoordY + y;
 
                 //If we are looking at something on the grid/if our index is not out of bounds
                 if (checkX >= 0 && checkX < this.gridSizeX && checkY >= 0 && checkY < this.gridSizeY) 
@@ -116,15 +116,5 @@ public class PathGrid : MonoBehaviour {
 
         return neighbours;
     }
-    /*
-    public List<PathNode> GetPath()
-    {
-        return path;
-    }
-    public void SetPath(List<PathNode> _path)
-    {
-        this.path = _path;
-    }
-    */
 
 }

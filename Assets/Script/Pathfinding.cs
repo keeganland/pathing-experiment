@@ -34,7 +34,7 @@ public class Pathfinding : MonoBehaviour {
         //Initialize the open set and closed set and stick 
         PathNode startNode = pathGrid.NodeFromWorldPoint(startPos);
         PathNode targetNode = pathGrid.NodeFromWorldPoint(targetPos);
-        if (startNode.IsTraversable() && targetNode.IsTraversable())
+        if (startNode.Traversable && targetNode.Traversable)
         {
             //List<PathNode> openSet = new List<PathNode>();
             Heap<PathNode> openSet = new Heap<PathNode>(pathGrid.MaxSize);
@@ -64,17 +64,17 @@ public class Pathfinding : MonoBehaviour {
 
                 foreach (PathNode neighbour in pathGrid.FindNeighbours(currentNode))
                 {
-                    if (!neighbour.IsTraversable() || closedSet.Contains(neighbour))
+                    if (!neighbour.Traversable || closedSet.Contains(neighbour))
                     {
                         continue;
                     }
 
-                    int newMovementCostToNeighbour = currentNode.Get_gCost() + this.CalculateDistance(currentNode, neighbour);
-                    if (newMovementCostToNeighbour < neighbour.Get_gCost() || !openSet.Contains(neighbour))
+                    int newMovementCostToNeighbour = currentNode.GCost + this.CalculateDistance(currentNode, neighbour);
+                    if (newMovementCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
                     {
-                        neighbour.Set_gCost(newMovementCostToNeighbour);
-                        neighbour.Set_hCost(this.CalculateDistance(currentNode, targetNode));
-                        neighbour.SetParent(currentNode);
+                        neighbour.GCost = newMovementCostToNeighbour;
+                        neighbour.HCost = this.CalculateDistance(currentNode, targetNode);
+                        neighbour.Parent = currentNode;
 
                         if (!openSet.Contains(neighbour))
                         {
@@ -95,8 +95,7 @@ public class Pathfinding : MonoBehaviour {
         }
         requestManager.FinishedProcessingPath(waypoints, pathSuccess);
     }
-    /**
-     * Helper. Called once we've found the target node: generates the actual path by looking at the parents 
+    /* RetracePath - Helper. Called once we've found the target node: generates the actual path by looking at the parents 
      */
     private Vector2[] RetracePath(PathNode startNode, PathNode endNode)
     {
@@ -106,7 +105,7 @@ public class Pathfinding : MonoBehaviour {
         while (currentNode != startNode)
         {
             path.Add(currentNode);
-            currentNode = currentNode.GetParent();
+            currentNode = currentNode.Parent;
         }
         Vector2[] waypoints = this.SimplifyPath(path);
         Array.Reverse(waypoints); //Necessary because the path list ends up backwards, since we started at the end and gave it nodes one by one until we reached the beginning.
@@ -114,8 +113,7 @@ public class Pathfinding : MonoBehaviour {
         return waypoints;
     }
 
-    /*
-     * Will be used for path smoothing later. For now, however, it represents an optimization
+    /* SimplifyPath - Will be used for path smoothing later. For now, however, it represents an optimization
      */
     private Vector2[] SimplifyPath(List<PathNode> path)
     {
@@ -123,32 +121,32 @@ public class Pathfinding : MonoBehaviour {
         Vector2 directionOld = Vector2.zero;
         for (int i = 1; i < path.Count; i++)
         {
-            Vector2 directionNew = new Vector2(path[i - 1].GetGridCoordX() - path[i].GetGridCoordX(), path[i - 1].GetGridCoordY() - path[i].GetGridCoordY());
-            if(directionNew != directionOld) //i.e. if the path has changed direction
-            {
-                waypoints.Add(path[i].GetWorldPosition());
-            }
+            Vector2 directionNew = new Vector2(path[i - 1].GridCoordX - path[i].GridCoordX, path[i - 1].GridCoordY - path[i].GridCoordY);
+            //if (directionNew != directionOld) //i.e. if the path has changed direction
+            //{
+                waypoints.Add(path[i].WorldPosition);
+            //}
             directionOld = directionNew;
         }
 
         return waypoints.ToArray();
     }
-
+    /* CalculateDistance - As according to convention, we multiply distances by 10 so we can use 1.4 * 10 = 14 as an approximation of the diagonal distance
+     * */
     private int CalculateDistance(PathNode nodeA, PathNode nodeB)
     {
-        /* Conventionally, we multiply distances by 10 so we can use 1.4 * 10 = 14 as an approximation of the diagonal distance
-         */
+       
 
         /* https://youtu.be/mZfyt03LDH4?t=839
          * Imagine the coordinates of the two nodes make a rectangle. 
          * The distance is the diagonal of the square of the shorter side (14 * shorter side)
          * Plus whatever leftover bits there are from the longer side (10 * (longer side - shorter side)
          * 
-         * (of course, it's just a straight line if it's on either the same x axis or the same y axis.
+         * (of course, it's just a straight line if it's on either the same x axis or the same y axis.)
          */
 
-        int dstX = Mathf.Abs(nodeA.GetGridCoordX() - nodeB.GetGridCoordX());
-        int dstY = Mathf.Abs(nodeA.GetGridCoordY() - nodeB.GetGridCoordY());
+        int dstX = Mathf.Abs(nodeA.GridCoordX - nodeB.GridCoordX);
+        int dstY = Mathf.Abs(nodeA.GridCoordY - nodeB.GridCoordY);
 
         if (dstX > dstY)
             return 14 * dstY + 10 * (dstX - dstY);
