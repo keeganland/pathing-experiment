@@ -11,7 +11,9 @@ public class PathGrid : MonoBehaviour {
     public bool displayGridGizmos;
     public bool UseTilesToCreateGrid;
     public Tilemap tilemap;
-
+    public TerrainType[] walkableRegions;
+    private LayerMask walkableMask;
+    private Dictionary<int,int> walkableRegionsDictionary = new Dictionary<int, int>();
 
     private PathNode[,] grid;
     private float nodeDiameter;
@@ -32,6 +34,20 @@ public class PathGrid : MonoBehaviour {
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+        walkableMask = new LayerMask();
+        
+        foreach (TerrainType region in walkableRegions)
+        {
+            /* The value of a LayerMask is a 32-bit number, with exactly one of the bits flipped, representing which of the 32 layers we're dealing with.
+             * To combine these, we use logical addition, AKA bitwise-OR
+             * And just like the += operator, there is a |= operator
+             * */
+            walkableMask.value |= region.terrainMask.value;
+            walkableRegionsDictionary.Add((int)Mathf.Log(region.terrainMask.value, 2), region.terrainPenalty);
+
+        }
+
+        Debug.Log("walkable mask value == " + walkableMask.value);
         this.CreateGrid();
     }
     private void OnDrawGizmos()
@@ -53,7 +69,6 @@ public class PathGrid : MonoBehaviour {
         grid = new PathNode[gridSizeX, gridSizeY];
         Vector2 positionV2 = transform.position; //lops the z coordinate off the position vector;
         Vector2 worldBottomLeft = positionV2 - Vector2.right * gridWorldSize.x / 2 - Vector2.up * gridWorldSize.y / 2; //unlike the video, we're ignoring z axis.
-        //Vector3 worldBottomLeftV3 = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.up * gridWorldSize.y / 2; //unlike the video, we're ignoring z axis.
         Vector2 tileAnchorV2 = tilemap.tileAnchor;
 
         for (int x = 0; x < gridSizeX; x++)
@@ -61,8 +76,8 @@ public class PathGrid : MonoBehaviour {
             for (int y = 0; y < gridSizeY; y++)
             {
                 Vector2 worldPoint = worldBottomLeft + Vector2.right * (x * nodeDiameter + nodeRadius) + Vector2.up * (y * nodeDiameter + nodeRadius);
-                //Vector3 worldPoint = worldBottomLeftV3 + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius); 
                 bool traversable = true;
+
                 if (UseTilesToCreateGrid)
                 {
                     //This seems to be a weird place to put the offset to me, but this works. Figure this out!!
@@ -70,9 +85,32 @@ public class PathGrid : MonoBehaviour {
                 }
                 else
                 {
-                    traversable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask));
+                    //traversable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask)); // original
+                    traversable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius * 0.9f, unwalkableMask)); // weirdly works better, but still pretty off
                 }
-                grid[x, y] = new PathNode(traversable, worldPoint, x, y);
+
+                int movementPenalty = 0;
+
+                /* Raycast stuff from Lague
+                 * 
+                 * */
+                
+                if (traversable)
+                {
+                    /*
+                    Vector3 raycastOrigin = worldPoint;
+                    raycastOrigin += Vector3.back * 50; //magic number 50: just needs to be "some big number"
+                    Ray ray = new Ray(raycastOrigin, Vector3.forward);
+                    Debug.Log("Ray: " + ray.ToString());
+                    */
+
+                    RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero, Mathf.Infinity, walkableMask.value);
+
+                    //RaycastHit2D rh2d = Physics2D.GetRayIntersection(ray,Mathf.Infinity); //this is a conditional in the video, but I don't think RaycastHit2D can work like that
+                    //walkableRegionsDictionary.TryGetValue(rh2d.collider.gameObject.layer, out movementPenalty);
+                }
+
+                grid[x, y] = new PathNode(traversable, worldPoint, x, y, movementPenalty);
             }
         }
     }
@@ -117,4 +155,10 @@ public class PathGrid : MonoBehaviour {
         return neighbours;
     }
 
+    [System.Serializable]
+    public class TerrainType
+    {
+        public LayerMask terrainMask;
+        public int terrainPenalty;
+    }
 }

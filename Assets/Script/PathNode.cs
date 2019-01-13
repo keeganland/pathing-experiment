@@ -15,6 +15,9 @@ public class PathNode : IHeapItem<PathNode> {
     private Vector2 worldPosition;
     private int gridCoordX;
     private int gridCoordY;
+    private int movementPenalty;
+
+
     private int gCost; //A* algorithm: gCost is cost from the start node to this node
     private int hCost; //A* algorithm: hCost is heuristic estimate of distance of this node to the target
     private int heapIndex;
@@ -70,6 +73,17 @@ public class PathNode : IHeapItem<PathNode> {
             parent = value;
         }
     }
+    public int MovementPenalty
+    {
+        get
+        {
+            return movementPenalty;
+        }
+        set
+        {
+            movementPenalty = value;
+        }
+    }
 
     //read-only properties
     public int FCost //A* algorithm's methodology is always select node with lowest fCost
@@ -113,12 +127,13 @@ public class PathNode : IHeapItem<PathNode> {
     /* Constructor
      * 
      * */
-    public PathNode (bool traversable, Vector2 worldPosition, int x, int y)
+    public PathNode (bool traversable, Vector2 worldPosition, int x, int y, int penalty)
     {
         this.traversable = traversable;
         this.worldPosition = worldPosition;
         this.gridCoordX = x;
         this.gridCoordY = y;
+        this.movementPenalty = penalty;
     }
 
     public int CompareTo(PathNode other)
