@@ -97,17 +97,14 @@ public class PathGrid : MonoBehaviour {
                 
                 if (traversable)
                 {
-                    /*
+                    
                     Vector3 raycastOrigin = worldPoint;
                     raycastOrigin += Vector3.back * 50; //magic number 50: just needs to be "some big number"
-                    Ray ray = new Ray(raycastOrigin, Vector3.forward);
-                    Debug.Log("Ray: " + ray.ToString());
-                    */
+                    Ray ray = new Ray(raycastOrigin, Vector3.forward);                                        
+                    RaycastHit2D rh2d = Physics2D.GetRayIntersection(ray,Mathf.Infinity,walkableMask.value); //this is a conditional in the video, but I don't think RaycastHit2D can work like that
+                    walkableRegionsDictionary.TryGetValue(rh2d.collider.gameObject.layer, out movementPenalty);
 
-                    RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero, Mathf.Infinity, walkableMask.value);
-
-                    //RaycastHit2D rh2d = Physics2D.GetRayIntersection(ray,Mathf.Infinity); //this is a conditional in the video, but I don't think RaycastHit2D can work like that
-                    //walkableRegionsDictionary.TryGetValue(rh2d.collider.gameObject.layer, out movementPenalty);
+                    Debug.Log("At tile (" + worldPoint.x + "," + worldPoint.y + ") the movement penalty is: " + movementPenalty);
                 }
 
                 grid[x, y] = new PathNode(traversable, worldPoint, x, y, movementPenalty);

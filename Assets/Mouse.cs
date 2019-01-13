@@ -16,11 +16,11 @@ public class Mouse : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Debug.Log("Ray from mouse click: " + ray.ToString());
+            //Debug.Log("Ray from mouse click: " + ray.ToString());
             RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-            Debug.Log("Hit generated from ray: " + hit.ToString());
+            //Debug.Log("Hit generated from ray: " + hit.ToString());
             bool hitCollider = hit.collider == true;
-            Debug.Log("Hit a collider?: " + hitCollider);
+            //Debug.Log("Hit a collider?: " + hitCollider);
 
             if (hit.collider != null)
             {

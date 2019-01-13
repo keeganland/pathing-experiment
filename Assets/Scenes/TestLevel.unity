@@ -125,7 +125,6 @@ GameObject:
   - component: {fileID: 145813}
   - component: {fileID: 145817}
   - component: {fileID: 145816}
-  - component: {fileID: 145815}
   m_Layer: 9
   m_Name: Road
   m_TagString: Untagged
@@ -141,7 +140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 145811}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 870782657}
@@ -901,125 +900,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!66 &145815
-CompositeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145811}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
-  m_GenerationType: 0
-  m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 145817}
-    m_ColliderPaths:
-    - - X: -60000000
-        Y: 0
-      - X: -60000000
-        Y: -30000000
-      - X: -50000000
-        Y: -30000000
-      - X: -50000000
-        Y: -20000000
-      - X: -40000000
-        Y: -20000000
-      - X: -40000000
-        Y: -30000000
-      - X: -10000000
-        Y: -30000000
-      - X: -10000000
-        Y: -40000000
-      - X: 10000000
-        Y: -40000000
-      - X: 10000000
-        Y: -50000000
-      - X: 20000000
-        Y: -50000000
-      - X: 20000000
-        Y: -60000000
-      - X: 30000000
-        Y: -60000000
-      - X: 30000000
-        Y: -80000000
-      - X: 60000000
-        Y: -80000000
-      - X: 60000000
-        Y: -60000000
-      - X: 50000000
-        Y: -60000000
-      - X: 50000000
-        Y: -40000000
-      - X: 60000000
-        Y: -40000000
-      - X: 60000000
-        Y: -20000000
-      - X: 50000000
-        Y: -20000000
-      - X: 50000000
-        Y: -10000000
-      - X: -20000000
-        Y: -10000000
-      - X: -20000000
-        Y: 10000000
-      - X: -40000000
-        Y: 10000000
-      - X: -40000000
-        Y: 20000000
-      - X: 70000000
-        Y: 20000000
-      - X: 70000000
-        Y: 40000000
-      - X: -30000000
-        Y: 40000000
-      - X: -30000000
-        Y: 30000000
-      - X: -50000000
-        Y: 30000000
-      - X: -50000000
-        Y: 0
-  m_CompositePaths:
-    m_Paths:
-    - - {x: 6, y: -6}
-      - {x: 5, y: -6}
-      - {x: 5, y: -4}
-      - {x: 6, y: -4}
-      - {x: 6, y: -2}
-      - {x: 5, y: -2}
-      - {x: 5, y: -1}
-      - {x: -2, y: -1}
-      - {x: -2, y: 1}
-      - {x: -4, y: 1}
-      - {x: -4, y: 2}
-      - {x: 7, y: 2}
-      - {x: 7, y: 4}
-      - {x: -3, y: 4}
-      - {x: -3, y: 3}
-      - {x: -5, y: 3}
-      - {x: -5, y: 0}
-      - {x: -6, y: 0}
-      - {x: -6, y: -3}
-      - {x: -5, y: -3}
-      - {x: -5, y: -2}
-      - {x: -4, y: -2}
-      - {x: -4, y: -3}
-      - {x: -1, y: -3}
-      - {x: -1, y: -4}
-      - {x: 1, y: -4}
-      - {x: 1, y: -5}
-      - {x: 2, y: -5}
-      - {x: 2, y: -6}
-      - {x: 3, y: -6}
-      - {x: 3, y: -8}
-      - {x: 6, y: -8}
-  m_VertexDistance: 0.0005
 --- !u!50 &145816
 Rigidbody2D:
   serializedVersion: 4
@@ -1053,7 +933,7 @@ TilemapCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
 --- !u!1 &650203858
 GameObject:
@@ -1196,7 +1076,6 @@ GameObject:
   - component: {fileID: 990641994}
   - component: {fileID: 990641998}
   - component: {fileID: 990641997}
-  - component: {fileID: 990641996}
   m_Layer: 8
   m_Name: Walls
   m_TagString: Untagged
@@ -1765,107 +1644,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!66 &990641996
-CompositeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 990641992}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
-  m_GenerationType: 0
-  m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 990641998}
-    m_ColliderPaths:
-    - - X: -50000000
-        Y: 40000000
-      - X: 60000000
-        Y: 40000000
-      - X: 60000000
-        Y: 50000000
-      - X: 40000000
-        Y: 50000000
-      - X: 40000000
-        Y: 60000000
-      - X: 0
-        Y: 60000000
-      - X: 0
-        Y: 50000000
-      - X: -60000000
-        Y: 50000000
-      - X: -60000000
-        Y: -50000000
-      - X: -50000000
-        Y: -50000000
-    - - X: 20000000
-        Y: -10000000
-      - X: 30000000
-        Y: -10000000
-      - X: 30000000
-        Y: 0
-      - X: 60000000
-        Y: 0
-      - X: 60000000
-        Y: 10000000
-      - X: 50000000
-        Y: 10000000
-      - X: 50000000
-        Y: 20000000
-      - X: -40000000
-        Y: 20000000
-      - X: -40000000
-        Y: 10000000
-      - X: -30000000
-        Y: 10000000
-      - X: -30000000
-        Y: 0
-      - X: -10000000
-        Y: 0
-      - X: -10000000
-        Y: -10000000
-      - X: 0
-        Y: -10000000
-      - X: 0
-        Y: -20000000
-      - X: 20000000
-        Y: -20000000
-  m_CompositePaths:
-    m_Paths:
-    - - {x: -5, y: 4}
-      - {x: 6, y: 4}
-      - {x: 6, y: 5}
-      - {x: 4, y: 5}
-      - {x: 4, y: 6}
-      - {x: 0, y: 6}
-      - {x: 0, y: 5}
-      - {x: -6, y: 5}
-      - {x: -6, y: -5}
-      - {x: -5, y: -5}
-    - - {x: 2, y: -1}
-      - {x: 3, y: -1}
-      - {x: 3, y: 0}
-      - {x: 6, y: 0}
-      - {x: 6, y: 1}
-      - {x: 5, y: 1}
-      - {x: 5, y: 2}
-      - {x: -4, y: 2}
-      - {x: -4, y: 1}
-      - {x: -3, y: 1}
-      - {x: -3, y: 0}
-      - {x: -1, y: 0}
-      - {x: -1, y: -1}
-      - {x: 0, y: -1}
-      - {x: 0, y: -2}
-      - {x: 2, y: -2}
-  m_VertexDistance: 0.0005
 --- !u!50 &990641997
 Rigidbody2D:
   serializedVersion: 4
@@ -2005,7 +1783,7 @@ MonoBehaviour:
   - terrainMask:
       serializedVersion: 2
       m_Bits: 1024
-    terrainPenalty: 0
+    terrainPenalty: 15
 --- !u!114 &1330167003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2043,7 +1821,6 @@ GameObject:
   - component: {fileID: 2003165106}
   - component: {fileID: 2003165110}
   - component: {fileID: 2003165109}
-  - component: {fileID: 2003165108}
   m_Layer: 10
   m_Name: Floor
   m_TagString: Untagged
@@ -2059,7 +1836,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2003165104}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 870782657}
@@ -4335,41 +4112,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!66 &2003165108
-CompositeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2003165104}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
-  m_GenerationType: 0
-  m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 2003165110}
-    m_ColliderPaths:
-    - - X: 90000000
-        Y: -90000000
-      - X: 90000000
-        Y: 60000000
-      - X: -70000000
-        Y: 60000000
-      - X: -70000000
-        Y: -90000000
-  m_CompositePaths:
-    m_Paths:
-    - - {x: 9, y: 6}
-      - {x: -7, y: 6}
-      - {x: -7, y: -9}
-      - {x: 9, y: -9}
-  m_VertexDistance: 0.0005
 --- !u!50 &2003165109
 Rigidbody2D:
   serializedVersion: 4
